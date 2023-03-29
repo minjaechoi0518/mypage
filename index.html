@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>랜덤명언</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        callQuotesApi();
+      });
+      function callQuotesApi() {
+        fetch("https://api.adviceslip.com/advice")
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            let quote = data["slip"]["advice"];
+            let temp_html = `
+              <p>${quote}</p>
+            `;
+            $("#quote").html(temp_html);
+          });
+      }
+
+      $(document).ready(function () {
+        callImageApi();
+      });
+      function callImageApi() {
+        fetch(
+          "https://random.imagecdn.app/v1/image?width=500&height=500&format=json"
+        )
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            let image = data["url"];
+            let temp_html = `
+              <p><img src="${image}" alt=""></p>
+            `;
+            $("#image").html(temp_html);
+          });
+      }
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap");
+
+      * {
+        font-family: "Gowun Dodum", sans-serif;
+      }
+
+      .mybtns {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        margin-top: 20px;
+      }
+
+      .myquotes {
+        font-size: 20px;
+      }
+
+      #image {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="mybtns">
+      <h1>스터디윗미</h1>
+      <div id="quote" class="myquotes"></div>
+      <button onclick="callQuotesApi()">여기에 명언넣을까</button>
+    </div>
+
+    <div>
+      <div id="image"></div>
+    </div>
+  </body>
+</html>
